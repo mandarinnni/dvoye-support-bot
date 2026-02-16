@@ -353,6 +353,9 @@ def main():
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
 
     print("Бот запущен")
+
+    threading.Thread(target=run_web).start()
+
     app.run_polling()
 
 
