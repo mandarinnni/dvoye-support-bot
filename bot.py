@@ -332,6 +332,8 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # --- Запуск приложения ---
 def main():
+    TOKEN = os.getenv("TOKEN")
+
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
@@ -339,7 +341,7 @@ def main():
     app.add_handler(CallbackQueryHandler(buttons))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
 
-  PORT = int(os.environ.get("PORT", 10000))
+    PORT = int(os.environ.get("PORT", 10000))
     RENDER_EXTERNAL_URL = os.environ.get("RENDER_EXTERNAL_URL")
 
     print("Бот запущен через webhook")
@@ -349,6 +351,7 @@ def main():
         port=PORT,
         webhook_url=f"{RENDER_EXTERNAL_URL}/{TOKEN}"
     )
+
 
 if __name__ == "__main__":
     main()
