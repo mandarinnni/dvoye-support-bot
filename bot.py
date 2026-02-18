@@ -36,7 +36,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     if user_id in user_messages:
-        await context.bot.edit_message_text(
+        await update.message.reply_text(
             chat_id=chat_id,
             message_id=user_messages[user_id],
             text=text,
