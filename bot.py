@@ -35,13 +35,19 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "чтобы описать ситуацию."
     )
 
+    # Если уже есть сообщение — пробуем отредактировать
     if user_id in user_messages:
-        await update.message.reply_text(
-            chat_id=chat_id,
-            message_id=user_messages[user_id],
-            text=text,
-            reply_markup=reply_markup
-        )
+        try:
+            await context.bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=user_messages[user_id],
+                text=text,
+                reply_markup=reply_markup
+            )
+        except:
+            # если сообщение нельзя редактировать — отправляем новое
+            msg = await update.message.reply_text(text, reply_markup=reply_markup)
+            user_messages[user_id] = msg.message_id
     else:
         msg = await update.message.reply_text(text, reply_markup=reply_markup)
         user_messages[user_id] = msg.message_id
